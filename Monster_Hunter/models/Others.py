@@ -3,6 +3,7 @@ from Monster_Hunter.models.Monster import Monster
 from Monster_Hunter.models.Object import Object
 from Monster_Hunter.models.Palico import Palico
 from django.db import models
+import datetime
 
 
 class Palico_lent(models.Model):
@@ -10,6 +11,10 @@ class Palico_lent(models.Model):
     palico_id = models.ForeignKey(Palico, on_delete=models.CASCADE)
     hunter_lent = models.ForeignKey(Hunter, on_delete=models.CASCADE)
     return_date = models.DateTimeField()
+    
+    def lent_days(self):
+        lent_days = self.return_date - self.delivery_date
+        return lent_days.days
 
     def __str__(self):
         return "Lend "+ self.palico_id.name + " to " + self.hunter_lent.name
